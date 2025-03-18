@@ -1,0 +1,12 @@
+{"properties": [
+  {
+    "name": "cheqr.app.encryption_secret_key",
+    "type": "java.lang.String",
+    "description": "Secret key for backend application"
+  },
+  {
+    "name": "cheqr.app.jwtExpirationMs",
+    "type": "java.lang.Integer",
+    "description": "Jwt Expiration time in milliseconds"
+  }
+]}
