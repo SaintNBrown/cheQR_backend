@@ -1,5 +1,11 @@
+# Use Maven image to build the app
+FROM maven:3.9.4-eclipse-temurin-17 AS build
+WORKDIR /app
+COPY . .
+RUN mvn -B -DskipTests clean package
+
+# Use a lightweight image to run the app
 FROM openjdk:17-jdk-slim
-VOLUME /tmp
-ARG JAR_FILE=target/*.jar
-COPY ${JAR_FILE} app.jar
-ENTRYPOINT ["java", "-jar", "/app.jar"]
+WORKDIR /app
+COPY --from=build /app/target/*.jar app.jar
+ENTRYPOINT ["java", "-jar", "app.jar"]
