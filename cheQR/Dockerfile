@@ -2,7 +2,7 @@
 FROM maven:3.9.4-eclipse-temurin-17 AS build
 WORKDIR /app
 COPY . /app/.
-RUN --mount=type=cache,target=/root/.m2/repository mvn -B -DskipTests clean package
+RUN --mount=type=cache,target=/app/.m2/repository mvn -DoutputFile=target/mvn-dependency-list.log -B -DskipTests clean dependency:list install
 
 # Runtime Stage
 FROM openjdk:17-jdk-slim
