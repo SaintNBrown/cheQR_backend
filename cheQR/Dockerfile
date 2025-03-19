@@ -1,17 +1,18 @@
-# Build the app.# Base image
+# Base image
 FROM maven:3.8.6-openjdk-17 AS build
 
 # Set the working directory inside the container
 WORKDIR /app
 
-# Copy the pom.xml file
-COPY pom.xml .
+# Copy all files from the build context to the working directory
+COPY . .
 
-# Copy the source code
-COPY src ./src
+# Debugging: List the contents of the /app directory
+RUN ls -la /app
 
-# Build the application
-RUN mvn -DoutputFile=target/mvn-dependency-list.log -B -DskipTests clean dependency:list install
+# Cache Maven dependencies
+RUN --mount=type=cache,id=maven-repo,target=/root/.m2/repository \
+    mvn -DoutputFile=target/mvn-dependency-list.log -B -DskipTests clean dependency:list install
 
 # Stage 2: Create a minimal runtime image
 FROM openjdk:17-jdk-slim
@@ -27,7 +28,3 @@ EXPOSE 8080
 
 # Run the application
 ENTRYPOINT ["java", "-jar", "/app/cheqr-0.0.1-SNAPSHOT.jar"]
-RUN ./mvnw -DoutputFile=target/mvn-dependency-list.log -B -DskipTests clean dependency:list install
-
-# Run the app by dynamically finding the JAR file in the target directory
-CMD ["sh", "-c", "java -jar target/*.jar"]
