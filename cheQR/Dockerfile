@@ -1,14 +1,28 @@
-# Use an official OpenJDK runtime as the base image
-FROM openjdk:17-jdk-slim
-
-# Set the working directory inside the container
+# Stage 1: Build the application
+FROM maven:3.8.5-openjdk-17 AS build
 WORKDIR /app
 
-# Copy the JAR file from your build directory into the container
-COPY target/cheQR-0.0.1-SNAPSHOT.jar /app/app.jar 
+# Copy the pom.xml file
+COPY pom.xml .
 
-# Expose the port your Spring Boot app runs on (default is 8080)
+# Download dependencies
+RUN mvn dependency:go-offline
+
+# Copy the source code
+COPY src ./src
+
+# Build the application
+RUN mvn clean package -DskipTests
+
+# Stage 2: Run the application
+FROM openjdk:17-jdk-slim
+WORKDIR /app
+
+# Copy the JAR file from the build stage
+COPY --from=build /app/target/your-spring-boot-app.jar /app/app.jar
+
+# Expose the port
 EXPOSE 8080
 
-# Run the JAR file when the container starts
+# Run the application
 CMD ["java", "-jar", "app.jar"]
