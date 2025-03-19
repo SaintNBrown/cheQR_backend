@@ -9,10 +9,10 @@
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
     <groupId>qubiqule.cheqr</groupId>
-    <artifactId>cheQR</artifactId>
+    <artifactId>cheqr</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <packaging>jar</packaging>
-    <name>cheQR</name>
+    <name>cheqr</name>
     <description>QR code enabled attendance app</description>
     <url/>
     <licenses>
@@ -110,6 +110,11 @@ https://repo.maven.apache.org/maven2: Connect timed out)~~>--><dependency>
     <groupId>org.springdoc</groupId>
     <artifactId>springdoc-openapi-starter-webmvc-ui</artifactId>
     <version>2.8.3</version>
+</dependency>
+<dependency>
+    <groupId>io.github.cdimascio</groupId>
+    <artifactId>dotenv-java</artifactId>
+    <version>3.0.0</version>
 </dependency>
 
     </dependencies>

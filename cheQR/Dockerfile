@@ -19,7 +19,7 @@ FROM openjdk:17-jdk-slim
 WORKDIR /app
 
 # Copy the JAR file from the build stage
-COPY --from=build /app/target/your-spring-boot-app.jar /app/app.jar
+COPY --from=build /app/target/cheQR-0.0.1-SNAPSHOT.jar /app/app.jar
 
 # Expose the port
 EXPOSE 8080
